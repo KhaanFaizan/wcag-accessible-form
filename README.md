@@ -14,6 +14,15 @@ Inside this repository, you will find three main pages:
 *   **thank-you.html**: A confirmation page that shows proper heading hierarchy and how to handle both meaningful and decorative images.
 *   **events.html**: An events calendar listing that uses native HTML elements like `details` and `summary` to create interactive content that works perfectly with keyboards.
 
+## Technical Note: Embedded JavaScript
+
+You might notice there are no external `.js` files in this project. All necessary JavaScript logic (for form validation and alerts) is **lightweight and embedded directly** within `index.html`.
+
+This design choice was made to:
+1.  **Simplify deployment**: Just copy the HTML files, and it works.
+2.  **Improve performance**: Reduces the number of HTTP requests.
+3.  **Keep it self-contained**: Makes the code easier to review in a single file.
+
 ## Accessibility Features
 
 We have implemented several key techniques to ensure compliance:
