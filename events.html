@@ -50,41 +50,101 @@
     <main>
         <p>Browse our upcoming workshops and meetups. All times are in UTC.</p>
 
-        <!-- Article elements for self-contained content -->
-        <article class="event-card" aria-labelledby="event-1-title">
-            <div class="date-badge">August 15, 2025</div>
-            <h2 id="event-1-title">Web Accessibility Workshop</h2>
-            <p><strong>Time:</strong> 14:00 - 16:00 UTC</p>
-            <p><strong>Location:</strong> Online (Zoom)</p>
-            <p>Learn the basics of WCAG 2.1 and how to implement them in your projects.</p>
+        <!-- accessible filter controls -->
+        <section aria-labelledby="filter-heading" class="filters">
+            <h2 id="filter-heading" class="visually-hidden">Filter Events</h2>
+            <div role="group" aria-label="Filter events by category">
+                <button type="button" class="filter-btn" aria-pressed="true" onclick="filterEvents('all')">All
+                    Events</button>
+                <button type="button" class="filter-btn" aria-pressed="false"
+                    onclick="filterEvents('workshop')">Workshops</button>
+                <button type="button" class="filter-btn" aria-pressed="false"
+                    onclick="filterEvents('meetup')">Meetups</button>
+            </div>
+            <div id="filter-status" class="visually-hidden" aria-live="polite">Showing all events</div>
+        </section>
 
-            <!-- Native HTML details/summary provides accessible expand/collapse functionality -->
-            <details>
-                <summary>View detailed agenda</summary>
-                <ul>
-                    <li>Introduction to A11y</li>
-                    <li>Semantic HTML deep dive</li>
-                    <li>ARIA: When to use it</li>
-                    <li>Q&A Session</li>
-                </ul>
-            </details>
-        </article>
+        <div id="events-container">
+            <!-- Article elements for self-contained content -->
+            <article class="event-card" data-category="workshop" aria-labelledby="event-1-title">
+                <div class="date-badge">August 15, 2025</div>
+                <h2 id="event-1-title">Web Accessibility Workshop</h2>
+                <p><strong>Time:</strong> 14:00 - 16:00 UTC</p>
+                <p><strong>Location:</strong> Online (Zoom)</p>
+                <p>Learn the basics of WCAG 2.1 and how to implement them in your projects.</p>
 
-        <article class="event-card" aria-labelledby="event-2-title">
-            <div class="date-badge">August 22, 2025</div>
-            <h2 id="event-2-title">Inclusive Design Meetup</h2>
-            <p><strong>Time:</strong> 18:00 - 19:30 UTC</p>
-            <p><strong>Location:</strong> Community Center, Room B</p>
-            <p>Networking event for designers and developers interested in inclusive user experiences.</p>
-            <details>
-                <summary>View detailed agenda</summary>
-                <ul>
-                    <li>Keynote Speaker</li>
-                    <li>Group Networking</li>
-                    <li>Showcase</li>
-                </ul>
-            </details>
-        </article>
+                <!-- Native HTML details/summary provides accessible expand/collapse functionality -->
+                <details>
+                    <summary>View detailed agenda</summary>
+                    <ul>
+                        <li>Introduction to A11y</li>
+                        <li>Semantic HTML deep dive</li>
+                        <li>ARIA: When to use it</li>
+                        <li>Q&A Session</li>
+                    </ul>
+                </details>
+            </article>
+
+            <article class="event-card" data-category="meetup" aria-labelledby="event-2-title">
+                <div class="date-badge">August 22, 2025</div>
+                <h2 id="event-2-title">Inclusive Design Meetup</h2>
+                <p><strong>Time:</strong> 18:00 - 19:30 UTC</p>
+                <p><strong>Location:</strong> Community Center, Room B</p>
+                <p>Networking event for designers and developers interested in inclusive user experiences.</p>
+                <details>
+                    <summary>View detailed agenda</summary>
+                    <ul>
+                        <li>Keynote Speaker</li>
+                        <li>Group Networking</li>
+                        <li>Showcase</li>
+                    </ul>
+                </details>
+            </article>
+        </div>
+
+        <script>
+            function filterEvents(category) {
+                const cards = document.querySelectorAll('.event-card');
+                const buttons = document.querySelectorAll('.filter-btn');
+                const status = document.getElementById('filter-status');
+                let visibleCount = 0;
+
+                // Update controls
+                buttons.forEach(btn => {
+                    // Check if the button's text includes the category name (case-insensitive check for UX)
+                    const isSelected = btn.textContent.toLowerCase().includes(category === 'all' ? 'all' : category);
+                    btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+
+                    // visual styling class toggle
+                    if (isSelected) {
+                        btn.style.backgroundColor = '#004d40';
+                        btn.style.color = '#fff';
+                    } else {
+                        btn.style.backgroundColor = '#e0e0e0';
+                        btn.style.color = '#333';
+                    }
+                });
+
+                // Filter items
+                cards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Announce change to screen readers
+                status.textContent = `Showing ${visibleCount} event${visibleCount !== 1 ? 's' : ''}`;
+            }
+
+            // Initial style setup
+            document.querySelectorAll('.filter-btn[aria-pressed="false"]').forEach(btn => {
+                btn.style.backgroundColor = '#e0e0e0';
+                btn.style.color = '#333';
+            });
+        </script>
 
         <section style="margin-top: 3rem; border-top: 2px solid #eee; padding-top: 2rem;">
             <h2>Host Your Own Event</h2>
