@@ -1,21 +1,74 @@
-/* Base minimal styles */
-body {
-    font-family: sans-serif;
-    line-height: 1.5;
-    margin: 0 auto;
-    max_width: 800px;
-    padding: 2rem;
-    color: #333;
+/* Modern Accessible Design System */
+:root {
+    --primary-color: #004d40;
+    /* Deep Teal - AAA conformant on white */
+    --primary-hover: #00695c;
+    --accent-color: #005fcc;
+    --text-color: #212121;
+    --bg-color: #f0f2f5;
+    --card-bg: #ffffff;
+    --error-color: #c62828;
+    --success-bg: #e8f5e9;
+    --success-text: #1b5e20;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --radius: 8px;
+    --transition: 0.2s ease-in-out;
 }
 
-header, main, footer {
+body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 2rem;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Layout Container */
+header,
+main,
+footer {
+    width: 100%;
+    max-width: 800px;
+}
+
+header {
     margin-bottom: 2rem;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Card Design for Main Content */
+main {
+    background-color: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
+    transition: box-shadow var(--transition);
+}
+
+main:hover {
+    box-shadow: var(--shadow-lg);
 }
 
 /* Focus styles - Critical for accessibility */
-*:focus {
-    outline: 3px solid #005fcc;
+/* We use a double outline for visibility on any background */
+*:focus-visible {
+    outline: 3px solid var(--accent-color);
     outline-offset: 2px;
+    border-radius: 2px;
 }
 
 /* Form styles */
@@ -26,57 +79,114 @@ header, main, footer {
 label {
     display: block;
     margin-bottom: 0.5rem;
-    font-weight: bold;
+    font-weight: 600;
+    color: #424242;
+    transition: color var(--transition);
+}
+
+input:focus+label {
+    color: var(--accent-color);
 }
 
 input[type="text"],
 input[type="email"] {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.75rem;
     font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 2px solid #e0e0e0;
+    border-radius: var(--radius);
+    transition: border-color var(--transition), box-shadow var(--transition);
+    box-sizing: border-box;
+    /* Fix width issues */
 }
 
+input[type="text"]:hover,
+input[type="email"]:hover {
+    border-color: #bdbdbd;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(0, 95, 204, 0.1);
+    outline: none;
+    /* We manage focus ring on input via border/shadow */
+}
+
+/* Buttons with modern look */
 button {
-    padding: 0.75rem 1.5rem;
-    background-color: #005fcc;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-radius: var(--radius);
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: background-color var(--transition), transform var(--transition);
+    box-shadow: var(--shadow-sm);
 }
 
 button:hover {
-    background-color: #004494;
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Active State */
+button:active {
+    transform: translateY(0);
 }
 
 /* Error messages */
 .error-message {
-    color: #d32f2f;
+    color: var(--error-color);
     font-size: 0.875rem;
-    margin-top: 0.25rem;
-    display: block;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+/* Add visual icon for errors using pseudo-element */
+.error-message:not(:empty)::before {
+    content: "⚠️";
 }
 
 input[aria-invalid="true"] {
-    border-color: #d32f2f;
-    border-width: 2px;
+    border-color: var(--error-color) !important;
+    background-color: #fff8f8;
 }
 
 /* Notification / Live Region */
 .notification {
     padding: 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .notification.success {
-    background-color: #e8f5e9;
-    color: #1b5e20;
-    border-color: #c8e6c9;
+    background-color: var(--success-bg);
+    color: var(--success-text);
+    border: 1px solid #c8e6c9;
 }
 
 /* Utilities */
@@ -92,7 +202,97 @@ input[aria-invalid="true"] {
     border: 0;
 }
 
-/* Honeypot field - ensuring it's not visible */
+/* Honeypot field */
 .honey-pot-container {
     display: none;
+}
+
+/* Events Page Styling */
+.event-card {
+    border: 1px solid #eee;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border-radius: var(--radius);
+    background: white;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.event-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: transparent;
+}
+
+.date-badge {
+    display: inline-block;
+    background: #e0f2f1;
+    color: var(--primary-color);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+}
+
+summary {
+    cursor: pointer;
+    padding: 0.5rem;
+    margin: -0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    color: var(--accent-color);
+    list-style: none;
+    /* Modern reset */
+}
+
+/* Custom indicator for details */
+summary::-webkit-details-marker {
+    display: none;
+}
+
+summary::after {
+    content: '+';
+    float: right;
+    font-weight: bold;
+}
+
+details[open] summary::after {
+    content: '-';
+}
+
+/* Navigation */
+nav ul {
+    background: white;
+    padding: 1rem !important;
+    border-radius: 50px;
+    box-shadow: var(--shadow-sm);
+    display: inline-block;
+    margin: 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: background-color var(--transition);
+}
+
+nav a[aria-current="page"] {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+nav a:hover:not([aria-current="page"]) {
+    background-color: #f5f5f5;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    color: #757575;
+    font-size: 0.9rem;
+    margin-top: auto;
 }
