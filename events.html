@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Calendar - WCAG Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .event-card {
+            border: 1px solid #ddd;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+        }
+
+        .event-card h2 {
+            margin-top: 0;
+            color: #005fcc;
+        }
+
+        .date-badge {
+            display: inline-block;
+            background: #eee;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Focus style for details summary specifically */
+        summary:focus {
+            outline: 3px solid #005fcc;
+            outline-offset: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav aria-label="Main Navigation">
+            <ul style="list-style: none; padding: 0;">
+                <li style="display: inline; margin-right: 1rem;"><a href="index.html">Home</a></li>
+                <li style="display: inline;"><a href="events.html" aria-current="page">Events</a></li>
+            </ul>
+        </nav>
+        <h1>Upcoming Community Events</h1>
+    </header>
+
+    <main>
+        <p>Browse our upcoming workshops and meetups. All times are in UTC.</p>
+
+        <!-- Article elements for self-contained content -->
+        <article class="event-card" aria-labelledby="event-1-title">
+            <div class="date-badge">August 15, 2025</div>
+            <h2 id="event-1-title">Web Accessibility Workshop</h2>
+            <p><strong>Time:</strong> 14:00 - 16:00 UTC</p>
+            <p><strong>Location:</strong> Online (Zoom)</p>
+            <p>Learn the basics of WCAG 2.1 and how to implement them in your projects.</p>
+
+            <!-- Native HTML details/summary provides accessible expand/collapse functionality -->
+            <details>
+                <summary>View detailed agenda</summary>
+                <ul>
+                    <li>Introduction to A11y</li>
+                    <li>Semantic HTML deep dive</li>
+                    <li>ARIA: When to use it</li>
+                    <li>Q&A Session</li>
+                </ul>
+            </details>
+        </article>
+
+        <article class="event-card" aria-labelledby="event-2-title">
+            <div class="date-badge">August 22, 2025</div>
+            <h2 id="event-2-title">Inclusive Design Meetup</h2>
+            <p><strong>Time:</strong> 18:00 - 19:30 UTC</p>
+            <p><strong>Location:</strong> Community Center, Room B</p>
+            <p>Networking event for designers and developers interested in inclusive user experiences.</p>
+            <details>
+                <summary>View detailed agenda</summary>
+                <ul>
+                    <li>Keynote Speaker</li>
+                    <li>Group Networking</li>
+                    <li>Showcase</li>
+                </ul>
+            </details>
+        </article>
+
+        <section style="margin-top: 3rem; border-top: 2px solid #eee; padding-top: 2rem;">
+            <h2>Host Your Own Event</h2>
+            <p>Do you have an idea for a community gathering?</p>
+            <!-- Accessible link with clear purpose -->
+            <a href="https://example.com/submit-event" target="_blank" rel="noopener noreferrer">
+                Submit an Event Proposal
+                <span class="visually-hidden">(Opens in a new tab)</span>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 WCAG Demo Project</p>
+    </footer>
+</body>
+
+</html>

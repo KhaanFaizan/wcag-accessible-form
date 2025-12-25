@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Sign-Up Form - WCAG Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Sign Up for Our Newsletter</h1>
+        <p>Join our community to receive updates and news.</p>
+    </header>
+
+    <main>
+        <!-- Live region for announcing status updates to screen readers -->
+        <div id="form-status" aria-live="polite"></div>
+
+        <form id="signup-form" novalidate>
+            <div class="form-group">
+                <label for="full-name">
+                    Full Name <span aria-hidden="true">*</span>
+                    <span class="visually-hidden">(Required)</span>
+                </label>
+                <!-- aria-describedby connects the input to the error message container -->
+                <input type="text" id="full-name" name="name" required aria-required="true" aria-describedby="name-error">
+                <span id="name-error" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email-address">
+                    Email Address <span aria-hidden="true">*</span>
+                    <span class="visually-hidden">(Required)</span>
+                </label>
+                <input type="email" id="email-address" name="email" required aria-required="true" aria-describedby="email-error">
+                <span id="email-error" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="organization">Organization (Optional)</label>
+                <input type="text" id="organization" name="organization">
+            </div>
+
+            <!-- Honeypot field for spam protection - hidden from all users including screen readers via display:none in CSS or aria-hidden="true" wrapper if CSS fails -->
+            <div class="honey-pot-container" aria-hidden="true">
+                <label for="website-url">Website URL</label>
+                <input type="text" id="website-url" name="website_url" tabindex="-1">
+            </div>
+
+            <button type="submit">Sign Up</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 WCAG Demo Project</p>
+    </footer>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nameInput = document.getElementById('full-name');
+            const emailInput = document.getElementById('email-address');
+            const honeypot = document.getElementById('website-url');
+            const statusRegion = document.getElementById('form-status');
+            
+            // Clear previous errors
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            document.querySelectorAll('[aria-invalid]').forEach(el => el.setAttribute('aria-invalid', 'false'));
+            statusRegion.textContent = '';
+            
+            let hasError = false;
+
+            // Honeypot check - if filled, silently fail
+            if (honeypot.value) {
+                console.log('Bot detected');
+                return; 
+            }
+
+            // Validation: Name
+            if (!nameInput.value.trim()) {
+                const errorId = 'name-error';
+                document.getElementById(errorId).textContent = 'Please enter your full name.';
+                nameInput.setAttribute('aria-invalid', 'true');
+                hasError = true;
+            }
+
+            // Validation: Email
+            // Simple regex for demonstration purposes
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailInput.value.trim()) {
+                document.getElementById('email-error').textContent = 'Please enter your email address.';
+                emailInput.setAttribute('aria-invalid', 'true');
+                hasError = true;
+            } else if (!emailRegex.test(emailInput.value)) {
+                document.getElementById('email-error').textContent = 'Please enter a valid email address format.';
+                emailInput.setAttribute('aria-invalid', 'true');
+                hasError = true;
+            }
+
+            if (hasError) {
+                // Announce error summary
+                statusRegion.textContent = 'Form submission failed. Please fix the errors highlighted below.';
+                // Focus the first invalid input
+                const firstInvalid = document.querySelector('[aria-invalid="true"]');
+                if (firstInvalid) {
+                    firstInvalid.focus();
+                }
+            } else {
+                // Success
+                statusRegion.innerHTML = '<div class="notification success">Success! You have officially signed up. Redirecting...</div>';
+                
+                // Simulate redirection after a delay
+                setTimeout(() => {
+                    window.location.href = 'thank-you.html';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>

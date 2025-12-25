@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100">
+  <rect width="300" height="100" fill="#ffffff"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="#005fcc">A11y Tech</text>
+  <rect x="10" y="10" width="280" height="80" fill="none" stroke="#005fcc" stroke-width="5"/>
+</svg>
